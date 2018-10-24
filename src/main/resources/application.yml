@@ -1,0 +1,10 @@
+
+wx:
+  appServers:
+      limaila:
+        appId: wx42950b6a4a337305
+        appSecret: 80533c6ffee3f573fca89ec23f42e1e4
+        appToken: limaila
+
+
+
