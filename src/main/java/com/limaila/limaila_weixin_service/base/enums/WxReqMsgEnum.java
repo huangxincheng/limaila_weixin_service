@@ -1,40 +1,50 @@
 package com.limaila.limaila_weixin_service.base.enums;
 
-public enum MessageTypeEnum {
+public enum WxReqMsgEnum {
 
     /**
      * 文本消息
      */
-    TEXT,
+    TEXT("text"),
 
     /**
      * 图片消息
      */
-    IMAGE,
+    IMAGE("image"),
 
     /**
      * 语音消息
      */
-    VOICE,
+    VOICE("voice"),
 
     /**
      * 视频消息
      */
-    VIDEO,
+    VIDEO("video"),
 
     /**
      * 小视频消息
      */
-    SHORTVIDEO,
+    SHORTVIDEO("shortvideo"),
 
     /**
      * 地理位置消息
      */
-    LOCATION,
+    LOCATION("location"),
 
     /**
      * 链接消息
      */
-    LINK,
+    LINK("link"),
     ;
+
+    private String value;
+
+    WxReqMsgEnum(String value) {
+        this.value = value;
+    }
+
+    public String val() {
+        return value;
+    }
 }
