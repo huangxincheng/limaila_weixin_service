@@ -10,3 +10,7 @@ logging:
   path: /data/logs
   level:
     root: debug
+server:
+  servlet:
+    context-path: ${spring.application.name}
+  port: 11080

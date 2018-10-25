@@ -10,5 +10,9 @@ logging:
   path: D:/log
   level:
     root: debug
+server:
+  servlet:
+    context-path: ${spring.application.name}
+  port: 8080
 
 
