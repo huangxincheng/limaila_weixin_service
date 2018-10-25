@@ -1,4 +1,5 @@
 
+
 wx:
   appServers:
       limaila:
@@ -6,5 +7,12 @@ wx:
         appSecret: 80533c6ffee3f573fca89ec23f42e1e4
         appToken: limaila
 
+logging:
+  config: classpath:application-logback.xml
+spring:
+  profiles:
+    active: dev
+  application:
+    name: limaila_weixin_service
 
 
