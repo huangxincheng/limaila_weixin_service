@@ -1,5 +1,3 @@
-
-
 wx:
   appServers:
       limaila:
@@ -9,6 +7,10 @@ wx:
 
 logging:
   config: classpath:application-logback.xml
+  path: D:/log
+  level:
+    root: debug
+
 spring:
   profiles:
     active: dev

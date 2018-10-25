@@ -18,12 +18,19 @@
            FILEDEBUG对应debug级别，文件名以log-debug-xxx.log形式命名
            stdout将日志信息输出到控制上，为方便开发测试使用
     -->
-    <contextName>limaila_weixin_service</contextName>
 
-    <property name="LOG_PATH" value="D:/log" />
+    <springProperty scope="context" name="logPath" source="logging.path" defaultValue="D:/log"/>
+
+    <springProperty scope="context" name="applicationName" source="spring.application.name" defaultValue="app"/>
+
+    <springProperty scope="context" name="logLevel" source="logging.level.root" defaultValue="debug"/>
+
+    <contextName>${applicationName}</contextName>
+
+    <property name="LOG_PATH" value="${logPath}" />
 
     <!--设置系统日志目录-->
-    <property name="APPDIR" value="limaila_weixin_service" />
+    <property name="APPDIR" value="${applicationName}" />
 
 
     <!-- 日志记录器，日期滚动记录 -->
@@ -162,7 +169,7 @@
     <logger name="org.hibernate" level="WARN" />
 
     <!-- 生产环境下，将此级别配置为适合的级别，以免日志文件太多或影响程序性能 -->
-    <root level="DEBUG">
+    <root level="${logLevel}">
         <appender-ref ref="FILEERROR" />
         <appender-ref ref="FILEWARN" />
         <appender-ref ref="FILEINFO" />
