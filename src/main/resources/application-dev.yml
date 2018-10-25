@@ -12,7 +12,7 @@ logging:
     root: debug
 server:
   servlet:
-    context-path: ${spring.application.name}
+    context-path: /${spring.application.name}
   port: 8080
 
 
