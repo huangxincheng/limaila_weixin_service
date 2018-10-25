@@ -1,14 +1,14 @@
 package com.limaila.limaila_weixin_service.controller;
 
+import com.limaila.limaila_weixin_service.base.message.IMethodEnum;
+import com.limaila.limaila_weixin_service.constant.SystemConstant;
 import com.limaila.limaila_weixin_service.helper.wxAppServer.WxAppServerHelper;
 import com.limaila.limaila_weixin_service.helper.wxAppServer.WxSignHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,8 +26,8 @@ public class WxHandlerController {
 
     @RequestMapping
     public void handlerWeixin(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        request.setCharacterEncoding("UTF-8");  //微信服务器POST消息时用的是UTF-8编码，在接收时也要用同样的编码，否则中文会乱码；
-        response.setCharacterEncoding("UTF-8"); //在响应消息（回复消息给用户）时，也将编码方式设置为UTF-8，原理同上；boolean isGet =
+        request.setCharacterEncoding(SystemConstant.defaultUTF8Character);  //微信服务器POST消息时用的是UTF-8编码，在接收时也要用同样的编码，否则中文会乱码；
+        response.setCharacterEncoding(SystemConstant.defaultUTF8Character); //在响应消息（回复消息给用户）时，也将编码方式设置为UTF-8，原理同上；boolean isGet =
         PrintWriter out = response.getWriter();
         String signature = request.getParameter("signature"); // 微信加密签名
         String timestamp = request.getParameter("timestamp"); // 时间戳
@@ -40,15 +40,22 @@ public class WxHandlerController {
         logger.info(" nonce = " + nonce);
         logger.info(" echostr = " + echostr);
         logger.info(" wxKey = " + wxKey);
+        logger.info(" method = " + request.getMethod());
         logger.info("============== 微信统一处理接口 ===============");
+        if (wxAppServerHelper.getWxAppServer(wxKey) == null) {
+            throw new RuntimeException("请求非法");
+        }
         try {
-            if (wxAppServerHelper.getWxAppServer(wxKey) == null) {
-                throw new RuntimeException("请求非法");
-            }
-            boolean check = WxSignHelper.checkSignature(wxAppServerHelper.getWxAppServer(wxKey).getAppToken(), signature, timestamp, nonce);
-            if (check) {
-                // 注意此处必须返回echostr以完成验证
-                out.write(echostr);
+            if (StringUtils.pathEquals(request.getMethod(), IMethodEnum.GET.name())) {
+                // 处理微信信息校验
+                boolean check = WxSignHelper.checkSignature(wxAppServerHelper.getWxAppServer(wxKey).getAppToken(), signature, timestamp, nonce);
+                if (check) {
+                    // 注意此处必须返回echostr以完成验证
+                    out.write(echostr);
+                }
+            } else if (StringUtils.pathEquals(request.getMethod(), IMethodEnum.POST.name())) {
+                // 处理微信发送过来的信息
+
             }
         } finally {
             out.close();
