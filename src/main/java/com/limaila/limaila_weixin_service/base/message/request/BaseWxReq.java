@@ -7,7 +7,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaseReq {
+public class BaseWxReq {
 
     //开发者微信号
     private String ToUserName;

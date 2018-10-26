@@ -1,4 +1,4 @@
-package com.limaila.limaila_weixin_service.base.message.request;
+package com.limaila.limaila_weixin_service.base.message.request.message;
 
 import lombok.*;
 
@@ -13,7 +13,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class TextReqMessage extends BaseReqMessage {
+public class TextWxReqMessage extends BaseWxReqMessage {
 
     private String Content;
 

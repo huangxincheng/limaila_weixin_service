@@ -1,7 +1,7 @@
 package com.limaila.limaila_weixin_service.base.message.handler.text;
 
 import com.limaila.limaila_weixin_service.base.message.handler.abstracts.text.AbstractText2ImageMessageHandler;
-import com.limaila.limaila_weixin_service.base.message.request.TextReqMessage;
+import com.limaila.limaila_weixin_service.base.message.request.message.TextWxReqMessage;
 
 public class IText2ImageMessageHandler extends AbstractText2ImageMessageHandler {
 
@@ -10,12 +10,12 @@ public class IText2ImageMessageHandler extends AbstractText2ImageMessageHandler 
     }
 
     @Override
-    public String businessHandler(TextReqMessage textReqMessage) {
+    public String businessHandler(TextWxReqMessage textReqMessage) {
         return "meidaid";
     }
 
     @Override
-    public boolean isBusinessHandler(TextReqMessage textRespMessage) {
+    public boolean isBusinessHandler(TextWxReqMessage textRespMessage) {
         return textRespMessage.getContent().contains("图片");
     }
 }

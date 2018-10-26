@@ -3,7 +3,7 @@ package com.limaila.limaila_weixin_service.base.message;
 import com.limaila.limaila_weixin_service.base.message.handler.abstracts.AbstractMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.handler.text.IText2ImageMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.handler.text.IText2TextMessageHandler;
-import com.limaila.limaila_weixin_service.base.message.request.BaseReqMessage;
+import com.limaila.limaila_weixin_service.base.message.request.message.BaseWxReqMessage;
 import com.limaila.limaila_weixin_service.base.message.response.BaseRespMessage;
 import com.limaila.limaila_weixin_service.configuration.wxAppServer.WxAppServerKey;
 
@@ -30,7 +30,7 @@ public class MessageChaining {
         handlerMap.put(WxAppServerKey.LIMAILA, vector);
     }
 
-    private static final ThreadLocal<BaseReqMessage> reqMsgThreadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<BaseWxReqMessage> reqMsgThreadLocal = new ThreadLocal<>();
 
     private MessageChaining(){}
 
@@ -38,11 +38,11 @@ public class MessageChaining {
         return new MessageChaining();
     }
 
-    public static  void setBaseReqMessage(BaseReqMessage baseReqMessage) {
+    public static  void setBaseReqMessage(BaseWxReqMessage baseReqMessage) {
         reqMsgThreadLocal.set(baseReqMessage);
     }
 
-    public static BaseReqMessage getBaseReqMessage() {
+    public static BaseWxReqMessage getBaseReqMessage() {
         return reqMsgThreadLocal.get();
     }
 

@@ -1,7 +1,7 @@
 package com.limaila.limaila_weixin_service.base.message.handler.abstracts.text;
 
 import com.limaila.limaila_weixin_service.base.enums.WxReqMsgEnum;
-import com.limaila.limaila_weixin_service.base.message.request.TextReqMessage;
+import com.limaila.limaila_weixin_service.base.message.request.message.TextWxReqMessage;
 import com.limaila.limaila_weixin_service.base.message.response.BaseRespMessage;
 import com.limaila.limaila_weixin_service.base.message.response.TextRespMessage;
 
@@ -13,7 +13,7 @@ public abstract class AbstractText2TextMessageHandler extends AbstractTextMessag
     }
 
     @Override
-    public BaseRespMessage handler(TextReqMessage textReqMessage) {
+    public BaseRespMessage handler(TextWxReqMessage textReqMessage) {
         TextRespMessage baseRespMessage = new TextRespMessage();
         baseRespMessage.setCreateTime(new Date().getTime());
         baseRespMessage.setFromUserName(textReqMessage.getToUserName());
@@ -23,5 +23,5 @@ public abstract class AbstractText2TextMessageHandler extends AbstractTextMessag
         return baseRespMessage;
     }
 
-    public abstract String businessHandler(TextReqMessage textReqMessage);
+    public abstract String businessHandler(TextWxReqMessage textReqMessage);
 }
