@@ -13,6 +13,7 @@ public enum WxReqMsgEnum {
     IMAGE("image"),
 
     /**
+     *
      * 语音消息
      */
     VOICE("voice"),
