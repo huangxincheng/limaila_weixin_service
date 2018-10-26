@@ -37,6 +37,12 @@ public enum WxReqMsgEnum {
      * 链接消息
      */
     LINK("link"),
+
+
+    /**
+     * 事件消息
+     */
+    EVENT("event"),
     ;
 
     private String value;
