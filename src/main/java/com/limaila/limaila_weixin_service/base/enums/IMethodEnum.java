@@ -7,9 +7,9 @@ public enum  IMethodEnum {
     POST("post"),
     ;
 
-    private String name;
+    private String val;
 
     IMethodEnum(String name) {
-        this.name = name;
+        this.val = val;
     }
 }
