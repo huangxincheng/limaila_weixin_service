@@ -12,7 +12,7 @@ public class IText2TextMessageHandler extends AbstractText2TextMessageHandler {
 
     @Override
     public String businessHandler(TextReqMessage textReqMessage) {
-        return "收到消息:" + textReqMessage.getContent() + "\n" + "回复类型:文字";
+        return "收到文字:" + textReqMessage.getContent();
     }
 
     @Override
