@@ -1,6 +1,6 @@
 package com.limaila.limaila_weixin_service.controller;
 
-import com.limaila.limaila_weixin_service.base.message.IMethodEnum;
+import com.limaila.limaila_weixin_service.base.enums.IMethodEnum;
 import com.limaila.limaila_weixin_service.constant.SystemConstant;
 import com.limaila.limaila_weixin_service.helper.wxAppServer.WxAppServerHelper;
 import com.limaila.limaila_weixin_service.helper.wxAppServer.WxSignHelper;

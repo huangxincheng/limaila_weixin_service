@@ -1,4 +1,4 @@
-package com.limaila.limaila_weixin_service.base.message;
+package com.limaila.limaila_weixin_service.base.enums;
 
 public enum  IMethodEnum {
 
