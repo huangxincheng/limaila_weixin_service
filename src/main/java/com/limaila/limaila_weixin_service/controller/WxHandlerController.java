@@ -1,9 +1,12 @@
 package com.limaila.limaila_weixin_service.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.limaila.limaila_weixin_service.base.enums.IMethodEnum;
 import com.limaila.limaila_weixin_service.constant.SystemConstant;
+import com.limaila.limaila_weixin_service.helper.base.XStreamHelper;
 import com.limaila.limaila_weixin_service.helper.wxAppServer.WxAppServerHelper;
 import com.limaila.limaila_weixin_service.helper.wxAppServer.WxSignHelper;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/wxHandler")
@@ -55,7 +59,12 @@ public class WxHandlerController {
                 }
             } else if (StringUtils.pathEquals(request.getMethod(), IMethodEnum.POST.name())) {
                 // 处理微信发送过来的信息
-
+                String inputStreamStr = IOUtils.toString(request.getInputStream());
+                logger.info("==============微信请求inputStreamStr = "+ inputStreamStr);
+                Map map = XStreamHelper.toBean(Map.class, inputStreamStr);
+                String result = JSON.toJSONString(map);
+                logger.info("==============[JSON]转换 result = "+ result);
+                out.write("success");
             }
         } finally {
             out.close();
