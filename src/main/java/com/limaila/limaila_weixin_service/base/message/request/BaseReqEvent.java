@@ -7,7 +7,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaseReqEvent {
+public class BaseReqEvent extends BaseReq{
 
     private String Event;
 }
