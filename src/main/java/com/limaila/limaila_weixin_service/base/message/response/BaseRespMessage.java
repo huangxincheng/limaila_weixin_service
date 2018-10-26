@@ -1,10 +1,17 @@
 package com.limaila.limaila_weixin_service.base.message.response;
 
+import lombok.*;
+
 /**
  * Author: huangxincheng
  * <p>
  * <p>
  **/
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class BaseRespMessage {
 
     //接收方帐号（收到的OpenID）
