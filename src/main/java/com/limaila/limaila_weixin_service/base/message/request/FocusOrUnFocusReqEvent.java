@@ -3,18 +3,14 @@ package com.limaila.limaila_weixin_service.base.message.request;
 import lombok.*;
 
 /**
- * 文本消息
- * Author: huangxincheng
- * <p>
- * <p>
- **/
-@Setter
+ * 关注/取消关注事件
+ */
 @Getter
+@Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class TextReqMessage extends BaseReqMessage {
+public class FocusOrUnFocusReqEvent extends BaseReqEvent{
 
-    private String Content;
 
 }

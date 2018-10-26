@@ -1,4 +1,4 @@
-package com.limaila.limaila_weixin_service.base.message.handler.abstracts;
+package com.limaila.limaila_weixin_service.base.message.handler.abstracts.text;
 
 import com.limaila.limaila_weixin_service.base.enums.WxReqMsgEnum;
 import com.limaila.limaila_weixin_service.base.message.request.TextReqMessage;

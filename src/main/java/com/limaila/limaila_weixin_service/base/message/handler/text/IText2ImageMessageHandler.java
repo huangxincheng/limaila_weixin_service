@@ -1,6 +1,6 @@
 package com.limaila.limaila_weixin_service.base.message.handler.text;
 
-import com.limaila.limaila_weixin_service.base.message.handler.abstracts.AbstractText2ImageMessageHandler;
+import com.limaila.limaila_weixin_service.base.message.handler.abstracts.text.AbstractText2ImageMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.request.TextReqMessage;
 
 public class IText2ImageMessageHandler extends AbstractText2ImageMessageHandler {
