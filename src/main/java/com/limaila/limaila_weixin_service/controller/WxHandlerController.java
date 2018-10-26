@@ -1,8 +1,6 @@
 package com.limaila.limaila_weixin_service.controller;
 
-import ch.qos.logback.classic.servlet.LogbackServletContainerInitializer;
 import com.alibaba.fastjson.JSON;
-import com.limaila.limaila_weixin_service.base.enums.IMethodEnum;
 import com.limaila.limaila_weixin_service.base.enums.WxReqMsgEnum;
 import com.limaila.limaila_weixin_service.base.message.MessageChaining;
 import com.limaila.limaila_weixin_service.base.message.request.BaseReqMessage;
@@ -23,9 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/wxHandler")
@@ -58,14 +53,14 @@ public class WxHandlerController {
             throw new RuntimeException("请求非法");
         }
         try {
-            if (StringUtils.pathEquals(request.getMethod(), IMethodEnum.GET.name())) {
+            if (StringUtils.pathEquals(request.getMethod(), RequestMethod.GET.name())) {
                 // 处理微信信息校验
                 boolean check = WxSignHelper.checkSignature(wxAppServerHelper.getWxAppServer(wxKey).getAppToken(), signature, timestamp, nonce);
                 if (check) {
                     // 注意此处必须返回echostr以完成验证
                     out.write(echostr);
                 }
-            } else if (StringUtils.pathEquals(request.getMethod(), IMethodEnum.POST.name())) {
+            } else if (StringUtils.pathEquals(request.getMethod(), RequestMethod.POST.name())) {
                 // 处理微信发送过来的信息
                 String inputStreamStr = IOUtils.toString(request.getInputStream());
                 logger.info("==============微信请求inputStreamStr = "+ inputStreamStr);
