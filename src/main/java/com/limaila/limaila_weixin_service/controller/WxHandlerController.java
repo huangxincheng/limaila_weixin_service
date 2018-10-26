@@ -72,15 +72,16 @@ public class WxHandlerController {
                 BaseReqMessage baseReqMessage = XmlHelper.toBeanWithCData(inputStreamStr, BaseReqMessage.class);
                 if (StringUtils.pathEquals(baseReqMessage.getMsgType(), WxReqMsgEnum.TEXT.val())) {
                     // 将XML转换成TextReqMessage
-                    TextReqMessage textReqMessage = XmlHelper.toBeanWithCData(inputStreamStr, TextReqMessage.class);
+                    baseReqMessage = XmlHelper.toBeanWithCData(inputStreamStr, TextReqMessage.class);
                     // 存入线程
-                    MessageChaining.setBaseReqMessage(textReqMessage);
+                    MessageChaining.setBaseReqMessage(baseReqMessage);
                     BaseRespMessage baseRespMessage = MessageChaining.traverseHandler(wxKey);
-                    String responseStr = XmlHelper.toXmlWithCData(baseRespMessage);
-                    logger.info("==============服务响应 baseRespMessage = " + responseStr);
                     if (baseRespMessage == null) {
+                        logger.info("==============服务响应 baseRespMessage = success");
                         out.write("success");
                     } else {
+                        String responseStr = XmlHelper.toXmlWithCData(baseRespMessage);
+                        logger.info("==============服务响应 baseRespMessage = " + responseStr);
                         out.write(responseStr);
                     }
                 }
