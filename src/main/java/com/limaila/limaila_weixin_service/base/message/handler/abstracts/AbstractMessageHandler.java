@@ -1,6 +1,9 @@
 package com.limaila.limaila_weixin_service.base.message.handler.abstracts;
 
-public abstract class AbstractMessageHandler<T,F> {
+import com.limaila.limaila_weixin_service.base.message.request.BaseReqMessage;
+import com.limaila.limaila_weixin_service.base.message.response.BaseRespMessage;
+
+public abstract class AbstractMessageHandler<T extends BaseReqMessage,F extends BaseRespMessage> {
 
     private String key;
 
@@ -10,7 +13,7 @@ public abstract class AbstractMessageHandler<T,F> {
 
     public abstract boolean isHandler(T t);
 
-    public abstract F handler(T t);
+    public abstract F  handler(T t);
 
     protected AbstractMessageHandler nextHandler;
 

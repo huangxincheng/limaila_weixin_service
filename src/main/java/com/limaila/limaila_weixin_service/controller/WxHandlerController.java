@@ -2,8 +2,12 @@ package com.limaila.limaila_weixin_service.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.limaila.limaila_weixin_service.base.enums.IMethodEnum;
+import com.limaila.limaila_weixin_service.base.enums.WxReqMsgEnum;
+import com.limaila.limaila_weixin_service.base.message.MessageChaining;
+import com.limaila.limaila_weixin_service.base.message.request.BaseReqMessage;
+import com.limaila.limaila_weixin_service.base.message.request.TextReqMessage;
 import com.limaila.limaila_weixin_service.constant.SystemConstant;
-import com.limaila.limaila_weixin_service.helper.base.XStreamHelper;
+import com.limaila.limaila_weixin_service.helper.base.XmlHelper;
 import com.limaila.limaila_weixin_service.helper.wxAppServer.WxAppServerHelper;
 import com.limaila.limaila_weixin_service.helper.wxAppServer.WxSignHelper;
 import org.apache.commons.io.IOUtils;
@@ -17,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -61,13 +67,32 @@ public class WxHandlerController {
                 // 处理微信发送过来的信息
                 String inputStreamStr = IOUtils.toString(request.getInputStream());
                 logger.info("==============微信请求inputStreamStr = "+ inputStreamStr);
-                Map map = XStreamHelper.toBean(Map.class, inputStreamStr);
-                String result = JSON.toJSONString(map);
+                BaseReqMessage baseReqMessage = XmlHelper.toBeanWithCData(inputStreamStr, BaseReqMessage.class);
+                if (StringUtils.pathEquals(baseReqMessage.getMsgType(), WxReqMsgEnum.TEXT.val())) {
+                    // 将XML转换成TextReqMessage
+                    TextReqMessage textReqMessage = XmlHelper.toBeanWithCData(inputStreamStr, TextReqMessage.class);
+                    // 存入线程
+                    MessageChaining.setBaseReqMessage(textReqMessage);
+
+                }
+                String result = JSON.toJSONString(baseReqMessage);
                 logger.info("==============[JSON]转换 result = "+ result);
                 out.write("success");
             }
         } finally {
             out.close();
         }
+    }
+
+    public static void main(String[] args) throws IOException {
+        TextReqMessage map = XmlHelper.toBeanWithCData(
+        "<xml><ToUserName><![CDATA[gh_315261d1c925]]></ToUserName>" +
+                "<FromUserName><![CDATA[o6heKxP38ntqKaLDrE0ZsU80G03E]]></FromUserName>" +
+                "<CreateTime>1540535388</CreateTime>" +
+                "<MsgType><![CDATA[text]]></MsgType>" +
+                "<Content><![CDATA[1]]></Content>" +
+                "<MsgId>6616549110471337329</MsgId>" +
+                "</xml>", TextReqMessage.class);
+        System.out.println(JSON.toJSONString(map));
     }
 }
