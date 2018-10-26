@@ -81,6 +81,7 @@ public class WxHandlerController {
                     }
                 } else {
                     //其他类型直接返回success（自己扩展）
+                    logger.info("==============服务响应 baseRespMessage = success");
                     out.write("success");
                 }
             }

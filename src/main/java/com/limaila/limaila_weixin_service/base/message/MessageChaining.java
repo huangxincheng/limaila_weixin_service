@@ -1,7 +1,7 @@
 package com.limaila.limaila_weixin_service.base.message;
 
 import com.limaila.limaila_weixin_service.base.message.handler.abstracts.AbstractMessageHandler;
-import com.limaila.limaila_weixin_service.base.message.handler.text.ITextMessageHandler;
+import com.limaila.limaila_weixin_service.base.message.handler.text.IText2TextMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.request.BaseReqMessage;
 import com.limaila.limaila_weixin_service.base.message.response.BaseRespMessage;
 import com.limaila.limaila_weixin_service.configuration.wxAppServer.WxAppServerKey;
@@ -24,7 +24,7 @@ public class MessageChaining {
 
     static {
         Vector<AbstractMessageHandler> vector = new Vector<>();
-        vector.add(new ITextMessageHandler(WxAppServerKey.LIMAILA));
+        vector.add(new IText2TextMessageHandler(WxAppServerKey.LIMAILA));
         handlerMap.put(WxAppServerKey.LIMAILA, vector);
     }
 

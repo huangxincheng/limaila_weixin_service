@@ -2,22 +2,21 @@ package com.limaila.limaila_weixin_service.base.message.handler.text;
 
 import com.limaila.limaila_weixin_service.base.message.handler.abstracts.AbstractText2TextMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.request.TextReqMessage;
-import org.springframework.util.StringUtils;
 
-public class ITextMessageHandler extends AbstractText2TextMessageHandler {
+public class IText2TextMessageHandler extends AbstractText2TextMessageHandler {
 
 
-    public ITextMessageHandler(String key) {
+    public IText2TextMessageHandler(String key) {
         super(key);
     }
 
     @Override
     public String businessHandler(TextReqMessage textReqMessage) {
-        return "456";
+        return "收到消息:" + textReqMessage.getContent() + "\n" + "回复类型:文字";
     }
 
     @Override
     public boolean isBusinessHandler(TextReqMessage textRespMessage) {
-        return StringUtils.pathEquals(textRespMessage.getContent(),"123");
+       return textRespMessage.getContent().contains("文字");
     }
 }
