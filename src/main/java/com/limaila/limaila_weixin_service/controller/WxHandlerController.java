@@ -1,11 +1,13 @@
 package com.limaila.limaila_weixin_service.controller;
 
+import ch.qos.logback.classic.servlet.LogbackServletContainerInitializer;
 import com.alibaba.fastjson.JSON;
 import com.limaila.limaila_weixin_service.base.enums.IMethodEnum;
 import com.limaila.limaila_weixin_service.base.enums.WxReqMsgEnum;
 import com.limaila.limaila_weixin_service.base.message.MessageChaining;
 import com.limaila.limaila_weixin_service.base.message.request.BaseReqMessage;
 import com.limaila.limaila_weixin_service.base.message.request.TextReqMessage;
+import com.limaila.limaila_weixin_service.base.message.response.BaseRespMessage;
 import com.limaila.limaila_weixin_service.constant.SystemConstant;
 import com.limaila.limaila_weixin_service.helper.base.XmlHelper;
 import com.limaila.limaila_weixin_service.helper.wxAppServer.WxAppServerHelper;
@@ -73,11 +75,14 @@ public class WxHandlerController {
                     TextReqMessage textReqMessage = XmlHelper.toBeanWithCData(inputStreamStr, TextReqMessage.class);
                     // 存入线程
                     MessageChaining.setBaseReqMessage(textReqMessage);
-
+                    BaseRespMessage baseRespMessage = MessageChaining.traverseHandler(wxKey);
+                    logger.info("==============服务响应 baseRespMessage = " + baseRespMessage);
+                    if (baseRespMessage == null) {
+                        out.write("success");
+                    } else {
+                        out.write(XmlHelper.toXmlWithCData(baseRespMessage));
+                    }
                 }
-                String result = JSON.toJSONString(baseReqMessage);
-                logger.info("==============[JSON]转换 result = "+ result);
-                out.write("success");
             }
         } finally {
             out.close();

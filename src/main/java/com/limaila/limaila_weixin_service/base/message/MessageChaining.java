@@ -3,6 +3,7 @@ package com.limaila.limaila_weixin_service.base.message;
 import com.limaila.limaila_weixin_service.base.message.handler.abstracts.AbstractMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.handler.text.ITextMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.request.BaseReqMessage;
+import com.limaila.limaila_weixin_service.base.message.response.BaseRespMessage;
 import com.limaila.limaila_weixin_service.configuration.wxAppServer.WxAppServerKey;
 
 import java.util.HashMap;
@@ -43,11 +44,11 @@ public class MessageChaining {
         return reqMsgThreadLocal.get();
     }
 
-    public static BaseReqMessage traverseHandler(String key) {
+    public static BaseRespMessage traverseHandler(String key) {
         Vector<AbstractMessageHandler> vector = handlerMap.get(key);
         for (AbstractMessageHandler abstractMessageHandler : vector) {
             if (abstractMessageHandler.isHandler(reqMsgThreadLocal.get())) {
-//                return abstractMessageHandler.handler(reqMsgThreadLocal.get());
+                return abstractMessageHandler.handler(reqMsgThreadLocal.get());
             }
         }
         return null;
