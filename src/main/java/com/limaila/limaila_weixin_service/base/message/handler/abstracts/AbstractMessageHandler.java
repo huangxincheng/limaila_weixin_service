@@ -1,9 +1,9 @@
 package com.limaila.limaila_weixin_service.base.message.handler.abstracts;
 
-import com.limaila.limaila_weixin_service.base.message.request.BaseReqMessage;
+import com.limaila.limaila_weixin_service.base.message.request.BaseReq;
 import com.limaila.limaila_weixin_service.base.message.response.BaseRespMessage;
 
-public abstract class AbstractMessageHandler<T extends BaseReqMessage,F extends BaseRespMessage> {
+public abstract class AbstractMessageHandler<T extends BaseReq,F extends BaseRespMessage> {
 
     private String key;
 
