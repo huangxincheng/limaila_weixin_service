@@ -2,6 +2,7 @@ package com.limaila.limaila_weixin_service.base.message;
 
 import com.limaila.limaila_weixin_service.base.message.handler.abstracts.AbstractMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.handler.text.IText2ImageMessageHandler;
+import com.limaila.limaila_weixin_service.base.message.handler.text.IText2NewsMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.handler.text.IText2TextMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.request.message.BaseWxReqMessage;
 import com.limaila.limaila_weixin_service.base.message.response.wx.message.resp.BaseRespMessage;
@@ -29,6 +30,7 @@ public class MessageChaining {
         List<AbstractMessageHandler> list = new ArrayList<>();
         list.add(new IText2TextMessageHandler(WxAppServerKey.LIMAILA));
         list.add(new IText2ImageMessageHandler(WxAppServerKey.LIMAILA));
+        list.add(new IText2NewsMessageHandler(WxAppServerKey.LIMAILA));
         TextReqHandlerMap.put(WxAppServerKey.LIMAILA, list);
     }
 
