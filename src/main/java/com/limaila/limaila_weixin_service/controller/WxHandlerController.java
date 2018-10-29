@@ -71,6 +71,7 @@ public class WxHandlerController {
                 String inputStreamStr = IOUtils.toString(request.getInputStream());
                 logger.info("==============微信请求inputStreamStr = \n{}", inputStreamStr);
                 Map<String, String> requestMap = XmlHelper.xmlToMap(inputStreamStr);
+                MessageChaining.setReqMsgMap(requestMap);
                 logger.info("==============requestMap = \n{}", JSON.toJSONString(requestMap));
                 if (StringUtils.pathEquals(requestMap.get("MsgType"), WxReqMsgEnum.TEXT.val())) {
                     // 将XML转换成实体对象
@@ -115,6 +116,7 @@ public class WxHandlerController {
             }
         } finally {
             MessageChaining.removeBaseReqMessage();
+            MessageChaining.removeReqMsgMap();
             out.close();
         }
     }

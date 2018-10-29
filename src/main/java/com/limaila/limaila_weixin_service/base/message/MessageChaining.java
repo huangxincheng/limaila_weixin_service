@@ -45,11 +45,9 @@ public class MessageChaining {
 
     private static final ThreadLocal<BaseWxReq> reqMsgThreadLocal = new ThreadLocal<>();
 
-    private MessageChaining(){}
+    private static final ThreadLocal<Map<String, String>> reqMsgMapThreadLocal = new ThreadLocal<>();
 
-    public static MessageChaining getInstance() {
-        return new MessageChaining();
-    }
+    private MessageChaining(){}
 
     public static  void setBaseReqMessage(BaseWxReq baseWxReq) {
         reqMsgThreadLocal.set(baseWxReq);
@@ -63,12 +61,24 @@ public class MessageChaining {
         reqMsgThreadLocal.remove();
     }
 
+    public static void setReqMsgMap(Map<String, String> reqMsgMap) {
+        reqMsgMapThreadLocal.set(reqMsgMap);
+    }
+
+    public static Map<String, String> getReqMsgMap() {
+        return reqMsgMapThreadLocal.get();
+    }
+
+    public static void removeReqMsgMap() {
+        reqMsgMapThreadLocal.remove();
+    }
+
 
     public static BaseRespMessage traverseTextHandler(String key) {
         List<AbstractMessageHandler> list = TextReqHandlerMap.get(key);
         for (AbstractMessageHandler abstractMessageHandler : list) {
-            if (abstractMessageHandler.isHandler(reqMsgThreadLocal.get())) {
-                return abstractMessageHandler.handler(reqMsgThreadLocal.get());
+            if (abstractMessageHandler.isHandler(getBaseReqMessage())) {
+                return abstractMessageHandler.handler(getBaseReqMessage());
             }
         }
         return null;
@@ -77,8 +87,8 @@ public class MessageChaining {
     public static BaseRespMessage traverseEventHandler(String key) {
         List<AbstractMessageHandler> list = EventReqHandlerMap.get(key);
         for (AbstractMessageHandler abstractMessageHandler : list) {
-            if (abstractMessageHandler.isHandler(reqMsgThreadLocal.get())) {
-                return abstractMessageHandler.handler(reqMsgThreadLocal.get());
+            if (abstractMessageHandler.isHandler(getBaseReqMessage())) {
+                return abstractMessageHandler.handler(getBaseReqMessage());
             }
         }
         return null;
