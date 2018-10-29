@@ -72,16 +72,16 @@ public class WxHandlerController {
                     MessageChaining.setBaseReqMessage(baseReqMessage);
                     BaseRespMessage baseRespMessage = MessageChaining.traverseHandler(wxKey);
                     if (baseRespMessage == null) {
-                        logger.info("==============服务响应 baseRespMessage = success");
+                        logger.info("==============服务响应 baseRespMessage = \nsuccess");
                         out.write("success");
                     } else {
                         String responseStr = XmlHelper.toXmlWithCData(baseRespMessage);
-                        logger.info("==============服务响应 baseRespMessage = " + responseStr);
+                        logger.info("==============服务响应 baseRespMessage = \n" + responseStr);
                         out.write(responseStr);
                     }
                 } else {
                     //其他类型直接返回success（自己扩展）
-                    logger.info("==============服务响应 baseRespMessage = success");
+                    logger.info("==============服务响应 baseRespMessage = \nsuccess");
                     out.write("success");
                 }
             }
