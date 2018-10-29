@@ -1,6 +1,7 @@
 package com.limaila.limaila_weixin_service.base.message.response.wx.message.resp;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 
 /**
  * Author: huangxincheng
@@ -12,6 +13,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Accessors(chain = true)
 public class BaseRespMessage {
 
     //接收方帐号（收到的OpenID）
