@@ -1,5 +1,6 @@
 package com.limaila.limaila_weixin_service.base.message.handler.text;
 
+import com.limaila.limaila_weixin_service.base.message.handler.abstracts.AbstractObject2TextMessageHadnler;
 import com.limaila.limaila_weixin_service.base.message.handler.abstracts.text.AbstractText2TextMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.request.message.TextWxReqMessage;
 
