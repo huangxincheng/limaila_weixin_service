@@ -4,6 +4,8 @@ import com.limaila.limaila_weixin_service.base.message.response.wx.vo.Articles;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -14,5 +16,5 @@ public class NewsRespMessage extends BaseRespMessage {
 
     private Integer ArticleCount;
 
-    private Articles item;
+    private List<Articles> item;
 }
