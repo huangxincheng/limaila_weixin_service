@@ -1,6 +1,7 @@
 package com.limaila.limaila_weixin_service.base.message.response.wx.message.resp;
 
 import com.limaila.limaila_weixin_service.base.message.response.wx.vo.Articles;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -16,5 +17,6 @@ public class NewsRespMessage extends BaseRespMessage {
 
     private Integer ArticleCount;
 
-    private List<Articles> item;
+    @XStreamAlias(value = "item", impl = Articles.class)
+    private List<Articles> Articles;
 }

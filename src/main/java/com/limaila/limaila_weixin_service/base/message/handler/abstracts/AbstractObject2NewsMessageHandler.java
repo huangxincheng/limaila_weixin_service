@@ -24,7 +24,7 @@ public abstract class AbstractObject2NewsMessageHandler<T extends BaseWxReq> ext
         item.add(articles);
         return new NewsRespMessage()
                .setArticleCount(1)
-               .setItem(item)
+               .setArticles(item)
                .setCreateTime(new Date().getTime())
                .setFromUserName(t.getToUserName())
                .setToUserName(t.getFromUserName())
