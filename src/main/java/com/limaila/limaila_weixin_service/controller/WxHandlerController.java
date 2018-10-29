@@ -70,7 +70,7 @@ public class WxHandlerController {
                     baseReqMessage = XmlHelper.toBeanWithCData(inputStreamStr, TextWxReqMessage.class);
                     // 存入线程
                     MessageChaining.setBaseReqMessage(baseReqMessage);
-                    BaseRespMessage baseRespMessage = MessageChaining.traverseHandler(wxKey);
+                    BaseRespMessage baseRespMessage = MessageChaining.traverseTextHandler(wxKey);
                     if (baseRespMessage == null) {
                         logger.info("==============服务响应 baseRespMessage = \nsuccess");
                         out.write("success");
@@ -87,6 +87,7 @@ public class WxHandlerController {
             }
         } finally {
             out.close();
+            MessageChaining.removeBaseReqMessage();
         }
     }
 

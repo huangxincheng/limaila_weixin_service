@@ -7,9 +7,7 @@ import com.limaila.limaila_weixin_service.base.message.request.message.BaseWxReq
 import com.limaila.limaila_weixin_service.base.message.response.BaseRespMessage;
 import com.limaila.limaila_weixin_service.configuration.wxAppServer.WxAppServerKey;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * Author: huangxincheng
@@ -21,13 +19,17 @@ import java.util.Vector;
  **/
 public class MessageChaining {
 
-    private static Map<String,Vector<AbstractMessageHandler>> handlerMap = new HashMap<>();
+
+    private static Map<String, List<AbstractMessageHandler>> TextReqHandlerMap = new HashMap<>();
+
+    private static Map<String, List<AbstractMessageHandler>> EventReqHandlerMap = new HashMap<>();
+
 
     static {
-        Vector<AbstractMessageHandler> vector = new Vector<>();
-        vector.add(new IText2TextMessageHandler(WxAppServerKey.LIMAILA));
-        vector.add(new IText2ImageMessageHandler(WxAppServerKey.LIMAILA));
-        handlerMap.put(WxAppServerKey.LIMAILA, vector);
+        List<AbstractMessageHandler> list = new ArrayList<>();
+        list.add(new IText2TextMessageHandler(WxAppServerKey.LIMAILA));
+        list.add(new IText2ImageMessageHandler(WxAppServerKey.LIMAILA));
+        TextReqHandlerMap.put(WxAppServerKey.LIMAILA, list);
     }
 
     private static final ThreadLocal<BaseWxReqMessage> reqMsgThreadLocal = new ThreadLocal<>();
@@ -46,9 +48,24 @@ public class MessageChaining {
         return reqMsgThreadLocal.get();
     }
 
-    public static BaseRespMessage traverseHandler(String key) {
-        Vector<AbstractMessageHandler> vector = handlerMap.get(key);
-        for (AbstractMessageHandler abstractMessageHandler : vector) {
+    public static void removeBaseReqMessage() {
+        reqMsgThreadLocal.remove();
+    }
+
+
+    public static BaseRespMessage traverseTextHandler(String key) {
+        List<AbstractMessageHandler> list = TextReqHandlerMap.get(key);
+        for (AbstractMessageHandler abstractMessageHandler : list) {
+            if (abstractMessageHandler.isHandler(reqMsgThreadLocal.get())) {
+                return abstractMessageHandler.handler(reqMsgThreadLocal.get());
+            }
+        }
+        return null;
+    }
+
+    public static BaseRespMessage traverseEventHandler(String key) {
+        List<AbstractMessageHandler> list = EventReqHandlerMap.get(key);
+        for (AbstractMessageHandler abstractMessageHandler : list) {
             if (abstractMessageHandler.isHandler(reqMsgThreadLocal.get())) {
                 return abstractMessageHandler.handler(reqMsgThreadLocal.get());
             }
