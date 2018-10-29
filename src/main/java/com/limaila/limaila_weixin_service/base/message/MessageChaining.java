@@ -1,9 +1,11 @@
 package com.limaila.limaila_weixin_service.base.message;
 
 import com.limaila.limaila_weixin_service.base.message.handler.abstracts.AbstractMessageHandler;
+import com.limaila.limaila_weixin_service.base.message.handler.event.IEvent2TextMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.handler.text.IText2ImageMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.handler.text.IText2NewsMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.handler.text.IText2TextMessageHandler;
+import com.limaila.limaila_weixin_service.base.message.request.BaseWxReq;
 import com.limaila.limaila_weixin_service.base.message.request.message.BaseWxReqMessage;
 import com.limaila.limaila_weixin_service.base.message.response.wx.message.resp.BaseRespMessage;
 import com.limaila.limaila_weixin_service.configuration.wxAppServer.WxAppServerKey;
@@ -27,14 +29,18 @@ public class MessageChaining {
 
 
     static {
-        List<AbstractMessageHandler> list = new ArrayList<>();
-        list.add(new IText2TextMessageHandler(WxAppServerKey.LIMAILA));
-        list.add(new IText2ImageMessageHandler(WxAppServerKey.LIMAILA));
-        list.add(new IText2NewsMessageHandler(WxAppServerKey.LIMAILA));
-        TextReqHandlerMap.put(WxAppServerKey.LIMAILA, list);
+        List<AbstractMessageHandler> TextList = new ArrayList<>();
+        TextList.add(new IText2TextMessageHandler(WxAppServerKey.LIMAILA));
+        TextList.add(new IText2ImageMessageHandler(WxAppServerKey.LIMAILA));
+        TextList.add(new IText2NewsMessageHandler(WxAppServerKey.LIMAILA));
+        TextReqHandlerMap.put(WxAppServerKey.LIMAILA, TextList);
+
+        List<AbstractMessageHandler> EventList = new ArrayList<>();
+        EventList.add(new IEvent2TextMessageHandler(WxAppServerKey.LIMAILA));
+        EventReqHandlerMap.put(WxAppServerKey.LIMAILA, EventList);
     }
 
-    private static final ThreadLocal<BaseWxReqMessage> reqMsgThreadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<BaseWxReq> reqMsgThreadLocal = new ThreadLocal<>();
 
     private MessageChaining(){}
 
@@ -42,11 +48,11 @@ public class MessageChaining {
         return new MessageChaining();
     }
 
-    public static  void setBaseReqMessage(BaseWxReqMessage baseReqMessage) {
-        reqMsgThreadLocal.set(baseReqMessage);
+    public static  void setBaseReqMessage(BaseWxReq baseWxReq) {
+        reqMsgThreadLocal.set(baseWxReq);
     }
 
-    public static BaseWxReqMessage getBaseReqMessage() {
+    public static BaseWxReq getBaseReqMessage() {
         return reqMsgThreadLocal.get();
     }
 

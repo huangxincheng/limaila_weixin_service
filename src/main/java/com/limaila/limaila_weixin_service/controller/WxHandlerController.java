@@ -1,8 +1,13 @@
 package com.limaila.limaila_weixin_service.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.limaila.limaila_weixin_service.base.enums.WxEventEnum;
 import com.limaila.limaila_weixin_service.base.enums.WxReqMsgEnum;
 import com.limaila.limaila_weixin_service.base.message.MessageChaining;
+import com.limaila.limaila_weixin_service.base.message.request.BaseWxReq;
+import com.limaila.limaila_weixin_service.base.message.request.event.ScanEvent;
+import com.limaila.limaila_weixin_service.base.message.request.event.SubscribeEvent;
+import com.limaila.limaila_weixin_service.base.message.request.event.UnSubscribeEvent;
 import com.limaila.limaila_weixin_service.base.message.request.message.BaseWxReqMessage;
 import com.limaila.limaila_weixin_service.base.message.request.message.TextWxReqMessage;
 import com.limaila.limaila_weixin_service.base.message.response.wx.message.resp.BaseRespMessage;
@@ -21,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/wxHandler")
@@ -32,7 +38,7 @@ public class WxHandlerController {
     private static final Logger logger = LoggerFactory.getLogger(WxHandlerController.class);
 
     @RequestMapping
-    public void handlerWeixin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void handlerWeixin(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setCharacterEncoding(SystemConstant.defaultUTF8Character);  //微信服务器POST消息时用的是UTF-8编码，在接收时也要用同样的编码，否则中文会乱码；
         response.setCharacterEncoding(SystemConstant.defaultUTF8Character); //在响应消息（回复消息给用户）时，也将编码方式设置为UTF-8，原理同上；boolean isGet =
         PrintWriter out = response.getWriter();
@@ -63,50 +69,66 @@ public class WxHandlerController {
             } else if (StringUtils.pathEquals(request.getMethod(), RequestMethod.POST.name())) {
                 // 处理微信发送过来的信息
                 String inputStreamStr = IOUtils.toString(request.getInputStream());
-                logger.info("==============微信请求inputStreamStr = "+ inputStreamStr);
-                BaseWxReqMessage baseReqMessage = XmlHelper.toBeanWithCData(inputStreamStr, BaseWxReqMessage.class);
-                logger.info("==============baseReqMessage = {}", JSON.toJSONString(baseReqMessage));
-                if (StringUtils.pathEquals(baseReqMessage.getMsgType(), WxReqMsgEnum.TEXT.val())) {
-                    // 将XML转换成TextReqMessage
-                    baseReqMessage = XmlHelper.toBeanWithCData(inputStreamStr, TextWxReqMessage.class);
+                logger.info("==============微信请求inputStreamStr = \n{}", inputStreamStr);
+                Map<String, String> requestMap = XmlHelper.xmlToMap(inputStreamStr);
+                logger.info("==============requestMap = \n{}", JSON.toJSONString(requestMap));
+                if (StringUtils.pathEquals(requestMap.get("MsgType"), WxReqMsgEnum.TEXT.val())) {
+                    // 将XML转换成实体对象
+                    BaseWxReq baseReqMessage = XmlHelper.toBeanWithCData(inputStreamStr, TextWxReqMessage.class);
                     // 存入线程
                     MessageChaining.setBaseReqMessage(baseReqMessage);
                     BaseRespMessage baseRespMessage = MessageChaining.traverseTextHandler(wxKey);
                     if (baseRespMessage == null) {
-                        logger.info("==============服务响应 baseRespMessage = \nsuccess");
+                        logger.info("==============服务响应微信文本请求 baseRespMessage = \n{}", "success");
                         out.write("success");
                     } else {
                         String responseStr = XmlHelper.toXmlWithCData(baseRespMessage);
-                        logger.info("==============服务响应 baseRespMessage = \n" + responseStr);
+                        logger.info("==============服务响应微信文本请求 baseRespMessage = \n{}", responseStr);
                         out.write(responseStr);
                     }
                 }
-                else if (StringUtils.pathEquals(baseReqMessage.getMsgType(), WxReqMsgEnum.EVENT.val())) {
-
-
-
-
+                else if (StringUtils.pathEquals(requestMap.get("MsgType"), WxReqMsgEnum.EVENT.val())) {
+                    if (StringUtils.pathEquals(requestMap.get("Event"), WxEventEnum.subscribe.name())) {
+                        BaseWxReq baseReqMessage = XmlHelper.toBeanWithCData(inputStreamStr, SubscribeEvent.class);
+                        MessageChaining.setBaseReqMessage(baseReqMessage);
+                    } else if(StringUtils.pathEquals(requestMap.get("Event"), WxEventEnum.unsubscribe.name())) {
+                        BaseWxReq baseReqMessage = XmlHelper.toBeanWithCData(inputStreamStr, UnSubscribeEvent.class);
+                        MessageChaining.setBaseReqMessage(baseReqMessage);
+                    } else if(StringUtils.pathEquals(requestMap.get("Event"), WxEventEnum.SCAN.name())) {
+                        BaseWxReq baseReqMessage = XmlHelper.toBeanWithCData(inputStreamStr, ScanEvent.class);
+                        MessageChaining.setBaseReqMessage(baseReqMessage);
+                    }
+                    BaseRespMessage baseRespMessage = MessageChaining.traverseEventHandler(wxKey);
+                    if (baseRespMessage == null) {
+                        logger.info("==============服务响应微信事件请求 baseRespMessage = \n{}", "success");
+                        out.write("success");
+                    } else {
+                        String responseStr = XmlHelper.toXmlWithCData(baseRespMessage);
+                        logger.info("==============服务响应微信事件请求 baseRespMessage = \n{}", responseStr);
+                        out.write(responseStr);
+                    }
                 } else {
                     //其他类型直接返回success（自己扩展）
-                    logger.info("==============服务响应 baseRespMessage = \nsuccess");
+                    logger.info("===============服务响应微信{}请求 baseRespMessage = \n{}", requestMap.get("MsgType"), "success");
                     out.write("success");
                 }
             }
         } finally {
-            out.close();
             MessageChaining.removeBaseReqMessage();
+            out.close();
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        TextWxReqMessage map = XmlHelper.toBeanWithCData(
-        "<xml><ToUserName><![CDATA[gh_315261d1c925]]></ToUserName>" +
+    public static void main(String[] args) throws Exception {
+        String xmlStr = "<xml><ToUserName><![CDATA[gh_315261d1c925]]></ToUserName>" +
                 "<FromUserName><![CDATA[o6heKxP38ntqKaLDrE0ZsU80G03E]]></FromUserName>" +
                 "<CreateTime>1540535388</CreateTime>" +
                 "<MsgType><![CDATA[text]]></MsgType>" +
                 "<Content><![CDATA[1]]></Content>" +
                 "<MsgId>6616549110471337329</MsgId>" +
-                "</xml>", TextWxReqMessage.class);
-        System.out.println(JSON.toJSONString(map));
+                "</xml>";
+        Map<String, String> stringStringMap = XmlHelper.xmlToMap(xmlStr);
+        String s = JSON.toJSONString(stringStringMap);
+        System.out.println(s);
     }
 }
