@@ -65,6 +65,7 @@ public class WxHandlerController {
                 String inputStreamStr = IOUtils.toString(request.getInputStream());
                 logger.info("==============微信请求inputStreamStr = "+ inputStreamStr);
                 BaseWxReqMessage baseReqMessage = XmlHelper.toBeanWithCData(inputStreamStr, BaseWxReqMessage.class);
+                logger.info("==============baseReqMessage = {}", JSON.toJSONString(baseReqMessage));
                 if (StringUtils.pathEquals(baseReqMessage.getMsgType(), WxReqMsgEnum.TEXT.val())) {
                     // 将XML转换成TextReqMessage
                     baseReqMessage = XmlHelper.toBeanWithCData(inputStreamStr, TextWxReqMessage.class);
@@ -79,6 +80,12 @@ public class WxHandlerController {
                         logger.info("==============服务响应 baseRespMessage = \n" + responseStr);
                         out.write(responseStr);
                     }
+                }
+                else if (StringUtils.pathEquals(baseReqMessage.getMsgType(), WxReqMsgEnum.EVENT.val())) {
+
+
+
+
                 } else {
                     //其他类型直接返回success（自己扩展）
                     logger.info("==============服务响应 baseRespMessage = \nsuccess");
