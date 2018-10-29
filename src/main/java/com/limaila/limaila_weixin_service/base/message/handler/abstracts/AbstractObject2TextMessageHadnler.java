@@ -13,10 +13,6 @@ public abstract class AbstractObject2TextMessageHadnler<T extends BaseWxReq>  ex
         super(key);
     }
 
-    public abstract boolean isHandler(T t);
-
-    public abstract boolean isBusinessHandler(T t);
-
     public abstract String businessHandler(T t);
 
     @Override

@@ -23,4 +23,6 @@ public abstract class AbstractText2ImageMessageHandler extends AbstractObject2Im
         }
         return false;
     }
+
+    protected abstract boolean isBusinessHandler(TextWxReqMessage textWxReqMessage);
 }
