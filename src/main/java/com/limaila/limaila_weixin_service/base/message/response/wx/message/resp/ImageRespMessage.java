@@ -1,4 +1,4 @@
-package com.limaila.limaila_weixin_service.base.message.response;
+package com.limaila.limaila_weixin_service.base.message.response.wx.message.resp;
 
 
 import lombok.*;

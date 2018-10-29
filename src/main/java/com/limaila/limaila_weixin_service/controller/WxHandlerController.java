@@ -5,7 +5,7 @@ import com.limaila.limaila_weixin_service.base.enums.WxReqMsgEnum;
 import com.limaila.limaila_weixin_service.base.message.MessageChaining;
 import com.limaila.limaila_weixin_service.base.message.request.message.BaseWxReqMessage;
 import com.limaila.limaila_weixin_service.base.message.request.message.TextWxReqMessage;
-import com.limaila.limaila_weixin_service.base.message.response.BaseRespMessage;
+import com.limaila.limaila_weixin_service.base.message.response.wx.message.resp.BaseRespMessage;
 import com.limaila.limaila_weixin_service.constant.SystemConstant;
 import com.limaila.limaila_weixin_service.helper.base.XmlHelper;
 import com.limaila.limaila_weixin_service.helper.wxAppServer.WxAppServerHelper;

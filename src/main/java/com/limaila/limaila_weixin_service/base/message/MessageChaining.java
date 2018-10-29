@@ -4,7 +4,7 @@ import com.limaila.limaila_weixin_service.base.message.handler.abstracts.Abstrac
 import com.limaila.limaila_weixin_service.base.message.handler.text.IText2ImageMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.handler.text.IText2TextMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.request.message.BaseWxReqMessage;
-import com.limaila.limaila_weixin_service.base.message.response.BaseRespMessage;
+import com.limaila.limaila_weixin_service.base.message.response.wx.message.resp.BaseRespMessage;
 import com.limaila.limaila_weixin_service.configuration.wxAppServer.WxAppServerKey;
 
 import java.util.*;
