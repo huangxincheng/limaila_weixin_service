@@ -59,6 +59,13 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
+        <!-- 使用lettuce作为redis的数据源需要增加此依赖-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+
+
         <!--  cache -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
