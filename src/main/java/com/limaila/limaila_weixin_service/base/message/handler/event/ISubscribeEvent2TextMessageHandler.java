@@ -4,9 +4,9 @@ import com.limaila.limaila_weixin_service.base.message.handler.abstracts.Abstrac
 import com.limaila.limaila_weixin_service.base.message.request.event.SubscribeEvent;
 import org.springframework.util.StringUtils;
 
-public class IEvent2TextMessageHandler extends AbstractObject2TextMessageHadnler<SubscribeEvent> {
+public class ISubscribeEvent2TextMessageHandler extends AbstractObject2TextMessageHadnler<SubscribeEvent> {
 
-    public IEvent2TextMessageHandler(String key) {
+    public ISubscribeEvent2TextMessageHandler(String key) {
         super(key);
     }
 

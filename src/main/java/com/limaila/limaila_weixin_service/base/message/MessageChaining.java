@@ -1,12 +1,12 @@
 package com.limaila.limaila_weixin_service.base.message;
 
 import com.limaila.limaila_weixin_service.base.message.handler.abstracts.AbstractMessageHandler;
-import com.limaila.limaila_weixin_service.base.message.handler.event.IEvent2TextMessageHandler;
+import com.limaila.limaila_weixin_service.base.message.handler.event.ISubscribeEvent2TextMessageHandler;
+import com.limaila.limaila_weixin_service.base.message.handler.event.IUnSubscribeEvent2TextMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.handler.text.IText2ImageMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.handler.text.IText2NewsMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.handler.text.IText2TextMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.request.BaseWxReq;
-import com.limaila.limaila_weixin_service.base.message.request.message.BaseWxReqMessage;
 import com.limaila.limaila_weixin_service.base.message.response.wx.message.resp.BaseRespMessage;
 import com.limaila.limaila_weixin_service.configuration.wxAppServer.WxAppServerKey;
 
@@ -36,7 +36,8 @@ public class MessageChaining {
         TextReqHandlerMap.put(WxAppServerKey.LIMAILA, TextList);
 
         List<AbstractMessageHandler> EventList = new ArrayList<>();
-        EventList.add(new IEvent2TextMessageHandler(WxAppServerKey.LIMAILA));
+        EventList.add(new ISubscribeEvent2TextMessageHandler(WxAppServerKey.LIMAILA));
+        EventList.add(new IUnSubscribeEvent2TextMessageHandler(WxAppServerKey.LIMAILA));
         EventReqHandlerMap.put(WxAppServerKey.LIMAILA, EventList);
     }
 
