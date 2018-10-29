@@ -15,9 +15,4 @@ public abstract class AbstractMessageHandler<T extends BaseWxReq,F extends BaseR
 
     public abstract F  handler(T t);
 
-    protected AbstractMessageHandler nextHandler;
-
-    public void setNextHandler(AbstractMessageHandler nextHandler) {
-        this.nextHandler = nextHandler;
-    }
 }
