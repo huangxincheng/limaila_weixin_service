@@ -1,5 +1,6 @@
 package com.limaila.limaila_weixin_service.base.message.handler.event;
 
+import com.limaila.limaila_weixin_service.base.enums.WxEventEnum;
 import com.limaila.limaila_weixin_service.base.message.handler.abstracts.AbstractObject2TextMessageHadnler;
 import com.limaila.limaila_weixin_service.base.message.request.event.SubscribeEvent;
 import org.springframework.util.StringUtils;
@@ -17,6 +18,6 @@ public class ISubscribeEvent2TextMessageHandler extends AbstractObject2TextMessa
 
     @Override
     public boolean isHandler(SubscribeEvent subscribeEvent) {
-        return StringUtils.pathEquals(subscribeEvent.getEvent(), "subscribe");
+        return StringUtils.pathEquals(subscribeEvent.getEvent(), WxEventEnum.subscribe.name());
     }
 }
