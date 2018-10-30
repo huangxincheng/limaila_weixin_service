@@ -1,8 +1,41 @@
+
+
 spring:
   profiles:
     active: dev
   application:
     name: limaila-weixin-service
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Chongqing
+  datasource:
+      platform: mysql
+      url: jdbc:mysql://mailou.com:3306/springcloud?useUnicode=true&characterEncoding=utf-8&useSSL=false
+      username: hxc
+      password: hxc
+      type: com.alibaba.druid.pool.DruidDataSource
+      druid:
+        initial-size: 5
+        min-idle: 1
+        max-active: 100
+        max-wait: 60000
+        pool-prepared-statements: true
+        max-pool-prepared-statement-per-connection-size: 33
+        validation-query: select 1
+        test-on-borrow: false
+        test-on-return: false
+        test-while-idle: true
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 25200000
+        remove-abandoned: true
+        remove-abandoned-timeout-millis: 1800
+        log-abandoned: true
+        query-timeout: 6000
+        transaction-query-timeout: 6000
+        remove-abandoned-timeout: 1800
+        stat-view-servlet:
+          login-username: hxc
+          login-password: hxc456
   redis:
     # Redis服务器地址
     host: www.limaila.com
@@ -32,3 +65,13 @@ spring:
         max-wait: 1ms
   cache:
     type: redis
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: com.limaila.limaila_weixin_service.entity
+pagehelper:
+  helper-dialect: mysql
+  reasonable: false
+  support-methods-arguments: true
+  params: count=countSql
+
+
