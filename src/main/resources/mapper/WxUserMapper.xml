@@ -36,6 +36,16 @@
     <include refid="Base_Table" />
     where id = #{id,jdbcType=BIGINT}
   </select>
+
+  <select id="selectByWxOpenid" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from
+    <include refid="Base_Table" />
+    where wx_openid = #{wxOpenid}
+    limit 1
+  </select>
+
   <delete id="deleteByPrimaryKey" >
     delete from
     <include refid="Base_Table" />

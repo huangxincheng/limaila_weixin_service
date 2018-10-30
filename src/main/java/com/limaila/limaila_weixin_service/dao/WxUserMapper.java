@@ -12,5 +12,7 @@ public interface WxUserMapper {
 
     WxUser selectByPrimaryKey(@Param("id") Long id, @Param("wxKey") String wxKey);
 
+    WxUser selectByWxOpenid(@Param("wxOpenid") String wxOpenid, @Param("wxKey") String wxKey);
+
     int updateByPrimaryKeySelective(WxUser record);
 }
