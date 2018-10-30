@@ -1,5 +1,7 @@
 package com.limaila.limaila_weixin_service;
 
+import com.limaila.limaila_weixin_service.configuration.wxAppServer.WxAppServerKey;
+import com.limaila.limaila_weixin_service.helper.wxToken.WxTokenHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,26 +21,30 @@ public class LimailaWeixinServiceApplicationTests {
 
     @Test
     public void contextLoads() {
-        ValueOperations<String, String> vo = redisTemplate.opsForValue();
-        vo.set("a1","a2");
-        String a1 = vo.get("a1");
-        System.out.println(a1);
-
-        HashMap map = new HashMap<>();
-        map.put("a6", "a8");
-        reidsCacheTemplate.opsForValue().set("bbq", map);
-
-        HashMap mp = (HashMap)reidsCacheTemplate.opsForValue().get("bbq");
-        System.out.println(mp);
+//        ValueOperations<String, String> vo = redisTemplate.opsForValue();
+//        vo.set("a1","a2");
+//        String a1 = vo.get("a1");
+//        System.out.println(a1);
+//
+//        HashMap map = new HashMap<>();
+//        map.put("a6", "a8");
+//        reidsCacheTemplate.opsForValue().set("bbq", map);
+//
+//        HashMap mp = (HashMap)reidsCacheTemplate.opsForValue().get("bbq");
+//        System.out.println(mp);
+        String wxToken = wxTokenHelper.getWxToken(WxAppServerKey.LIMAILA);
+        System.out.println("wxToken = " + wxToken);
     }
 
 
     @Autowired
-    private StringRedisTemplate redisTemplate;
+    private StringRedisTemplate stringRedisTemplate;
 
 
     @Autowired
     private RedisTemplate<String, Serializable> reidsCacheTemplate;
 
+    @Autowired
+    private WxTokenHelper wxTokenHelper;
 
 }
