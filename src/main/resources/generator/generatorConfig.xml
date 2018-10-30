@@ -52,7 +52,7 @@
         </javaClientGenerator>
 
         <!-- 列出要生成代码的所有表，这里配置的是不生成Example文件 -->
-        <table tableName="wx_user" domainObjectName="WxUser"
+        <table tableName="wx_user_limaila" domainObjectName="WxUser"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
