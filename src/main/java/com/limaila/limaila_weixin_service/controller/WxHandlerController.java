@@ -37,6 +37,9 @@ public class WxHandlerController {
 
     private static final Logger logger = LoggerFactory.getLogger(WxHandlerController.class);
 
+    @Autowired
+    private MessageChaining messageChaining;
+
     @RequestMapping
     public void handlerWeixin(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setCharacterEncoding(SystemConstant.defaultUTF8Character);  //微信服务器POST消息时用的是UTF-8编码，在接收时也要用同样的编码，否则中文会乱码；
@@ -72,7 +75,12 @@ public class WxHandlerController {
                 logger.info("==============微信请求inputStreamStr = \n{}", inputStreamStr);
                 Map<String, String> requestMap = XmlHelper.xmlToMap(inputStreamStr);
                 MessageChaining.setReqMsgMap(requestMap);
+
+                messageChaining.unifyHandler(requestMap, wxKey);
+
                 logger.info("==============requestMap = \n{}", JSON.toJSONString(requestMap));
+
+
                 if (StringUtils.pathEquals(requestMap.get("MsgType"), WxReqMsgEnum.TEXT.val())) {
                     // 将XML转换成实体对象
                     BaseWxReq baseReqMessage = XmlHelper.toBeanWithCData(inputStreamStr, TextWxReqMessage.class);

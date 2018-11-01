@@ -1,5 +1,7 @@
 package com.limaila.limaila_weixin_service.base.message;
 
+import com.limaila.limaila_weixin_service.base.enums.WxEventEnum;
+import com.limaila.limaila_weixin_service.base.enums.WxReqMsgEnum;
 import com.limaila.limaila_weixin_service.base.message.handler.abstracts.AbstractMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.handler.event.IScanEvent2TextMessageHandler;
 import com.limaila.limaila_weixin_service.base.message.handler.event.ISubscribeEvent2TextMessageHandler;
@@ -10,6 +12,12 @@ import com.limaila.limaila_weixin_service.base.message.handler.text.IText2TextMe
 import com.limaila.limaila_weixin_service.base.message.request.BaseWxReq;
 import com.limaila.limaila_weixin_service.base.message.response.wx.message.resp.BaseRespMessage;
 import com.limaila.limaila_weixin_service.configuration.wxAppServer.WxAppServerKey;
+import com.limaila.limaila_weixin_service.entity.WxUser;
+import com.limaila.limaila_weixin_service.helper.user.WxUserHelper;
+import com.limaila.limaila_weixin_service.service.WxUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 
@@ -21,6 +29,7 @@ import java.util.*;
  * <p>
  * <p>
  **/
+@Component
 public class MessageChaining {
 
 
@@ -28,6 +37,8 @@ public class MessageChaining {
 
     private static Map<String, List<AbstractMessageHandler>> EventReqHandlerMap = new HashMap<>();
 
+    @Autowired
+    private WxUserHelper wxUserHelper;
 
     static {
         List<AbstractMessageHandler> TextList = new ArrayList<>();
@@ -95,7 +106,12 @@ public class MessageChaining {
     }
 
 
-    public static void unifyHandler(Map<String, String> requestMap) {
-
+    public void unifyHandler(Map<String, String> requestMap, String key) {
+        if (StringUtils.pathEquals(requestMap.get("MsgType"), WxReqMsgEnum.EVENT.val())) {
+            if (StringUtils.pathEquals(requestMap.get("Event"), WxEventEnum.subscribe.name())) {
+                String openid = requestMap.get("FromUserName");
+                wxUserHelper.getWxUserInfo(key, openid);
+            }
+        }
     }
 }

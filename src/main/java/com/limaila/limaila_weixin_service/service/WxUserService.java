@@ -8,4 +8,7 @@ public interface WxUserService {
 
     WxUser get(String wxOpenid, String wxKey);
 
+    int add(WxUser wxUser);
+
+    int update(WxUser wxUser);
 }

@@ -11,11 +11,13 @@ public class WxUserServiceImpl implements WxUserService {
     @Autowired
     private WxUserMapper wxUserMapper;
 
-    private int add(WxUser wxUser) {
+    @Override
+    public int add(WxUser wxUser) {
         return wxUserMapper.insertSelective(wxUser);
     }
 
-    private int update(WxUser wxUser) {
+    @Override
+    public int update(WxUser wxUser) {
         return wxUserMapper.updateByPrimaryKeySelective(wxUser);
     }
 
