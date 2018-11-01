@@ -15,6 +15,7 @@ import com.limaila.limaila_weixin_service.configuration.wxAppServer.WxAppServerK
 import com.limaila.limaila_weixin_service.entity.WxUser;
 import com.limaila.limaila_weixin_service.helper.user.WxUserHelper;
 import com.limaila.limaila_weixin_service.service.WxUserService;
+import com.limaila.limaila_weixin_service.vo.wxUser.WxUserInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -39,6 +40,9 @@ public class MessageChaining {
 
     @Autowired
     private WxUserHelper wxUserHelper;
+
+    @Autowired
+    private WxUserService wxUserService;
 
     static {
         List<AbstractMessageHandler> TextList = new ArrayList<>();
@@ -110,7 +114,26 @@ public class MessageChaining {
         if (StringUtils.pathEquals(requestMap.get("MsgType"), WxReqMsgEnum.EVENT.val())) {
             if (StringUtils.pathEquals(requestMap.get("Event"), WxEventEnum.subscribe.name())) {
                 String openid = requestMap.get("FromUserName");
-                wxUserHelper.getWxUserInfo(key, openid);
+                WxUserInfoVo wxUserInfo = wxUserHelper.getWxUserInfo(key, openid);
+                if (wxUserInfo != null) {
+                    WxUser wxUser = new WxUser();
+                    wxUser.setWxNickname(wxUser.getWxNickname())
+                            .setWxKey(wxUser.getWxKey())
+                            .setWxCity(wxUser.getWxCity())
+                            .setWxCountry(wxUser.getWxCountry())
+                            .setWxHeadimgurl(wxUser.getWxHeadimgurl())
+                            .setWxLanguage(wxUser.getWxLanguage())
+                            .setWxOpenid(openid)
+                            .setWxProvince(wxUser.getWxProvince())
+                            .setWxQrScene(wxUser.getWxQrScene())
+                            .setWxQrSceneStr(wxUser.getWxQrSceneStr())
+                            .setWxSex(wxUser.getWxSex())
+                            .setWxSubscribe(wxUser.getWxSubscribe())
+                            .setWxSubscribeScene(wxUser.getWxSubscribeScene())
+                            .setWxSubscribeTime(wxUser.getWxSubscribeTime())
+                            .setWxUnionid(wxUser.getWxUnionid());
+                    wxUserService.add(wxUser);
+                }
             }
         }
     }
